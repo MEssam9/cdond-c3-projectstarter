@@ -63,7 +63,7 @@ jobs:
             cd backend
             rm -rf node_modules && rm ./package-lock.json
             npm install
-            npm run start
+            npm run start:dev
 
 
       - save_cache:
