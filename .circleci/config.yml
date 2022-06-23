@@ -110,10 +110,11 @@ jobs:
       - restore_cache:
           keys: [frontend-deps]
       - run:
-          name: Chck frontend deps
+          name: Check frontend deps
           command: |
             cd frontend
             npm install
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
   scan-backend:
     docker:
@@ -127,6 +128,7 @@ jobs:
           command: |
             cd backend
             npm install
+            npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
 #   deploy-infrastructure:
