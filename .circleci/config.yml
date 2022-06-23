@@ -121,8 +121,6 @@ jobs:
       - image: cimg/node:13.8.0
     steps:
       - checkout
-      - restore_cache:
-          keys: [backend-deps]
       - run:
           name: check backend deps
           command: |
