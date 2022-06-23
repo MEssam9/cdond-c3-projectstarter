@@ -127,8 +127,8 @@ jobs:
           name: check backend deps
           command: |
             cd backend
-            npm install
             rm package-lock.json
+            npm install
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
