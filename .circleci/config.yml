@@ -234,6 +234,8 @@ jobs:
     docker:
       - image: cimg/node:13.8.0
     steps:
+      - checkout
+
       # Checkout code from git
       - run:
           name: Install dependencies
@@ -282,7 +284,7 @@ jobs:
           name: Install dependencies
           command: |
             # Your code here
-            yum install -y python3
+            apt install -y python3
             pip install ansible
             pip install awscli
  
