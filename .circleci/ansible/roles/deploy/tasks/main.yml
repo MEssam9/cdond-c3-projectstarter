@@ -1,0 +1,14 @@
+---
+- name: Copy backend Tar
+  template:
+    src: "~/project/backend/artifact.tar.gz"
+    dest: "~/artifact.tar.gz"
+- name: Extract backend
+    shell: |
+    tar -cf ~/artifact.tar.gz ~/
+- name: Executing node
+  shell: |
+    cd ~/backend 
+    npm install
+    pm2 stop default
+    pm2 start npm -- start  
