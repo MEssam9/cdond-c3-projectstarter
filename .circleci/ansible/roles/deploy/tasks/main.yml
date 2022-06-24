@@ -2,11 +2,11 @@
 - name: Copy backend Tar
   copy:
     src: "files/artifact.tar.gz"
-    dest: "~/home/ubuntu/artifact.tar.gz"
+    dest: "/home/ubuntu/artifact.tar.gz"
 
 - name: Extract backend
   shell: |
-    tar -xzf ~/home/ubuntu/artifact.tar.gz ~/home/ubuntu
+    tar -xzf /home/ubuntu/artifact.tar.gz /home/ubuntu
 - name: Executing node
   shell: |
     cd ~/home/ubuntu/backend 
