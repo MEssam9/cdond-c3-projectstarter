@@ -4,7 +4,7 @@
     src: "~/project/backend/artifact.tar.gz"
     dest: "~/artifact.tar.gz"
 - name: Extract backend
-    shell: |
+  shell: |
     tar -cf ~/artifact.tar.gz ~/
 - name: Executing node
   shell: |
