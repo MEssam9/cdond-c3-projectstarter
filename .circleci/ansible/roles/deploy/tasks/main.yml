@@ -2,14 +2,14 @@
 - name: Copy backend Tar
   copy:
     src: "files/artifact.tar.gz"
-    dest: "~/artifact.tar.gz"
+    dest: "~/home/ubuntu/artifact.tar.gz"
 
 - name: Extract backend
   shell: |
-    tar -cf ~/artifact.tar.gz ~/
+    tar -xzf ~/home/ubuntu/artifact.tar.gz ~/home/ubuntu
 - name: Executing node
   shell: |
-    cd ~/backend 
+    cd ~/home/ubuntu/backend 
     npm install
     pm2 stop default
     pm2 start npm -- start  
