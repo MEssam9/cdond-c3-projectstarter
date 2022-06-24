@@ -1,8 +1,9 @@
 ---
 - name: Copy backend Tar
-  template:
+  copy:
     src: "files/artifact.tar.gz"
     dest: "~/artifact.tar.gz"
+
 - name: Extract backend
   shell: |
     tar -cf ~/artifact.tar.gz ~/
