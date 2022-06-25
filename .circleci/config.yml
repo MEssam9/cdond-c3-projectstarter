@@ -390,7 +390,7 @@ jobs:
             export OldWorkflowID=$(aws cloudformation \
             list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
             --no-paginate --output text) 
-            echo $OldWorkflowID > ~/OldWorkflowID.txt
+            echo $OldWorkflowID >> .circleci/OldWorkflowID.txt
             echo OldWorkflowID: "${OldWorkflowID}"
 
             aws cloudformation deploy \
@@ -401,7 +401,7 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - ~/OldWorkflowID.txt
+            - .circleci/OldWorkflowID.txt
       # Here's where you will add some code to rollback on failure
       - destroy-environment
       - revert-migrations  
@@ -418,7 +418,7 @@ jobs:
           name: Get old stack workflow id
           command: |
             # your code here
-            export OldWorkflowID=$(cat ~/OldWorkflowID.txt)
+            export OldWorkflowID=$(cat .circleci/OldWorkflowID.txt)
             echo OldWorkflowID: "${OldWorkflowID}"
             # Fetch the stack names          
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
