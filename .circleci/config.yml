@@ -31,7 +31,7 @@ commands:
             then
                 cd ~/project/backend
                 npm install
-                npm run migration:revert
+                npm run migrations:revert
             fi  
             
 jobs:
@@ -224,7 +224,7 @@ jobs:
             # Your code here
             cd backend
             npm install
-            npm run migration:revert
+            npm run migrations:revert
             npm run migrations > migrations_dump.txt
       - run:
           name: Send migration results to kvdb
@@ -357,20 +357,29 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-#   cloudfront-update:
-#     docker:
-#       # Docker image here that supports AWS CLI
-#     steps:
-#       # Checkout code from git
-#       - run:
-#           name: Install dependencies
-#           command: |
-#             # your code here
-#       - run:
-#           name: Update cloudfront distribution
-#           command: |
-#             # your code here
-#       # Here's where you will add some code to rollback on failure  
+  cloudfront-update:
+    docker:
+      # Docker image here that supports AWS CLI
+      - image: cimg/python:3.10.4-node
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            # your code here
+            pip install awscli
+      - run:
+          name: Update cloudfront distribution
+          command: |
+            # your code here
+            aws cloudformation deploy \
+          --template-file .circleci/files/cloudfront.yml \
+          --stack-name InitialStack \
+          --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
+          --tags project=udapeople
+      # Here's where you will add some code to rollback on failure
+      - destroy-environment
+      - revert-migrations  
 
 # cleanup:
     # docker:
@@ -407,9 +416,9 @@ workflows:
           requires: [build-frontend]
       - deploy-infrastructure:
           requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-          # filters:
-          #   branches:
-          #     only: [test-feature-branch]
+          filters:
+            branches:
+              only: [master]
       - configure-infrastructure:
           requires: [deploy-infrastructure]
       - run-migrations:
