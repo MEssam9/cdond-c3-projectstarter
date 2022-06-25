@@ -231,6 +231,8 @@ jobs:
           command: |
             # Your code here
             cd backend
+            cat ./migrations_dump.txt
+
             if grep "has been executed successfully." ./migrations_dump.txt
             then
               grep --version
