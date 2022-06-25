@@ -217,6 +217,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            sudo apt install -y python3
             pip install awscli
       - run:
           name: Run migrations
