@@ -1,6 +1,14 @@
 version: 2.1
 
 commands:
+  install-nodejs:
+    description: Install Node.js 13
+    steps:
+      - run:
+          name: Install Node.js 13
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash -
+            sudo apt install -y nodejs
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -207,19 +215,16 @@ jobs:
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
-      - image: cimg/node:13.8.0
+      - image: python:3.10.4
 
     steps:
       # Checkout code from git
       - checkout
-      - restore_cache:
-          keys: [backend-deps]      
+      - install-nodejs   
       - run:
           name: Install dependencies
           command: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+            pip install awscli
       - run:
           name: Run migrations
           command: |
@@ -247,9 +252,10 @@ jobs:
       - revert-migrations
   deploy-frontend:
     docker:
-      - image: cimg/python:3.10.4-node
+      - image: cimg/python:3.10.4
     steps:
       - checkout
+      - install-nodejs   
 
       # Checkout code from git
       - run:
@@ -281,11 +287,12 @@ jobs:
   deploy-backend:
     docker:
       # Docker image here that supports Ansible
-      - image: cimg/python:3.10.4-node
+      - image: cimg/python:3.10.4
 
     steps:
       # Checkout code from git
       - checkout
+      - install-nodejs   
       
       # Add ssh keys with fingerprint
       - add_ssh_keys:
@@ -324,10 +331,12 @@ jobs:
 
   smoke-test:
     docker:
-      - image: cimg/python:3.10.4-node
+      - image: cimg/python:3.10.4
       
     steps:
       - checkout
+      - install-nodejs   
+
       - run:
           name: Install dependencies
           command: |
@@ -367,9 +376,10 @@ jobs:
   cloudfront-update:
     docker:
       # Docker image here that supports AWS CLI
-      - image: cimg/python:3.10.4-node
+      - image: cimg/python:3.10.4
     steps:
       - checkout
+      - install-nodejs   
       - run:
           name: Install dependencies
           command: |
