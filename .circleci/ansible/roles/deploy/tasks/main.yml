@@ -6,8 +6,9 @@
 
 - name: unarchive backend Tar
   unarchive:
-    src: "~/artifact.tar.gz"
+    src: artifact.tar.gz
     dest: "~/"
+    remote_src: no
 
 - name: install node deps
   shell: |
