@@ -236,6 +236,7 @@ jobs:
               grep --version
               curl https://kvdb.io/UAK5TqvL7BfXf9B4cGVVBA/migration__${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             else
+              ls
               cat ./migrations_dump.txt
             fi
      # Here's where you will add some code to rollback on failure      
