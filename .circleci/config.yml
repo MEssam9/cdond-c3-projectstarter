@@ -301,7 +301,7 @@ jobs:
             cat inventory.txt
             export TYPEORM MIGRATIONS_DIR=./migrations
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
-            export TYPEORM_MIGRATIONS=./migrations/".ts
+            export TYPEORM_MIGRATIONS=./migrations/*.ts
             ansible-playbook -i inventory.txt deploy-backend.yml
       # Here's where you will add some code to rollback on failure      
       - destroy-environment
