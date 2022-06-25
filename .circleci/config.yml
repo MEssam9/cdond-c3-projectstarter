@@ -225,9 +225,11 @@ jobs:
           name: Send migration results to kvdb
           command: |
             # Your code here
+              curl --help
+              grep --version
               if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
               then
-                echo curl https://kvdb.io/UAK5TqvL7BfXf9B4cGVVBA/success_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                grep --version
                 curl https://kvdb.io/UAK5TqvL7BfXf9B4cGVVBA/success_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
               fi
      # Here's where you will add some code to rollback on failure      
@@ -318,15 +320,12 @@ jobs:
           command: |
             # your code here
             pip install awscli
-      - run:
-          name: Get backend url
-          command: |
-            # your code here
-            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicDnsName' --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --output text)
+
       - run:
           name: Backend smoke test.
           command: |
             # your code here
+            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicDnsName' --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --output text)
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
             if curl "${API_URL}/api/status" | grep "ok"
