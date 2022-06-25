@@ -215,7 +215,7 @@ jobs:
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
-      - image: python:3.10.4
+      - image: cimg/python:3.10.4
 
     steps:
       # Checkout code from git
