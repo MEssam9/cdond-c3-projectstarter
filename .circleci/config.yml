@@ -240,8 +240,7 @@ jobs:
             # Your code here
             cd backend
             cat ./migrations_dump.txt
-
-            if [grep "has been executed successfully." ./migrations_dump.txt] || [grep "No migrations are pending" ./migrations_dump.txt]
+            if grep "has been executed successfully." ./migrations_dump.txt 
             then
               curl https://kvdb.io/UAK5TqvL7BfXf9B4cGVVBA/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             else
