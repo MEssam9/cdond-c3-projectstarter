@@ -429,9 +429,7 @@ jobs:
             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
             echo Stack names: "${STACKS[@]}"        
             export OldWorkflowID=${OldWorkflowID##udapeople-}
-      - run:
-          name: Remove old stacks and files
-          command: |
+            echo OldWorkflowID: "${OldWorkflowID}"
             if [[ "${STACKS[@]}" =~ "${OldWorkflowID}" ]]
             then
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
